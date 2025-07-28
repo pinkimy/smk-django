@@ -4,7 +4,7 @@ from django.utils.text import slugify
 
 class Category(models.Model):
     name = models.CharField(max_length=100)
-    slug = models.SlugField(max_length=100, unique=True)
+    slug = models.CharField(max_length=100, unique=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
@@ -24,25 +24,27 @@ class Size(models.Model):
 
 class ProductSize(models.Model):
     product = models.ForeignKey(
-        "Product", on_delete=models.CASCADE, related_name="sizes"
+        "Product", on_delete=models.CASCADE, related_name="product_size"
     )
     size = models.ForeignKey(Size, on_delete=models.CASCADE, related_name="products")
     stock = models.PositiveIntegerField(default=0)
 
     def __str__(self):
-        return f"{self.size.name} ({self.stock}) in {self.product.name}"
+        return f"{self.size.name} ({self.stock} in stock) for {self.product.name}"
 
 
 class Product(models.Model):
     name = models.CharField(max_length=100)
     slug = models.CharField(max_length=100, unique=True)
-    description = models.TextField(blank=True)
-    price = models.DecimalField(max_digits=10, decimal_places=2)
     category = models.ForeignKey(
         Category, on_delete=models.CASCADE, related_name="products"
     )
-    main_image = models.ImageField(upload_to="products/main")
+    color = models.CharField(max_length=100)
+    price = models.DecimalField(max_digits=10, decimal_places=2)
+    description = models.TextField(blank=True)
+    main_image = models.ImageField(upload_to="products/main/")
     created = models.DateTimeField(auto_now_add=True)
+    updated_at = models.DateTimeField(auto_now=True)
 
     def save(self, *args, **kwargs):
         if not self.slug:
