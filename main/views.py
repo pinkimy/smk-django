@@ -6,7 +6,7 @@ from .models import Category, Product
 
 
 def product_list(request, category_slug=None):
-    catigories = Category.objects.all()
+    categories = Category.objects.all()
     products = Product.objects.filter(available=True)
 
     category = None
@@ -17,5 +17,5 @@ def product_list(request, category_slug=None):
     return render(
         request,
         "main/product_list.html",
-        {"category": category, "products": products, "categories": catigories},
+        {"category": category, "products": products, "categories": categories},
     )
