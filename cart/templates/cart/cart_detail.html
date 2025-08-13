@@ -34,7 +34,7 @@
             </tbody>
         </table>
 
-        <h3>Total: ${{ cart.total_price }}</h3>
+        <h3>Total: {{ cart.get_total_price }} $</h3>
 
     {% else %}
         <p>Your cart is empty.</p>

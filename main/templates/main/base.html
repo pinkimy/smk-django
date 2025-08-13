@@ -42,8 +42,16 @@
     <div class="container-fluid">
         <a class="navbar-brand" href="/">🦄 Fantastic Dream Shop</a>
         <div class="ms-auto">
-            <a href="/cart/" class="btn btn-outline-secondary">
+            <a href= "{% url "cart:cart_detail" %}" class="btn btn-outline-secondary">
                 🛒 Cart
+                    <span class="ms-auto">
+                            {% with total_items=cart|length %}
+                                {% if total_items > 0 %}
+                                    {{ total_items }}
+                                {% else %}
+                                {% endif %}
+                            {% endwith %}
+                    </span>
             </a>
         </div>
     </div>
